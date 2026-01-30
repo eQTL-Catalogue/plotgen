@@ -2,7 +2,7 @@
 process generate_plot_ge_data { 
     tag "${dataset_id}_${qtl_group}_${quant_method}"
     label "generate_plot_data"
-    container "quay.io/kerimoff/coverage_plot:v5"
+    container "quay.io/kerimoff/coverage_plot:v6"
 
 
     input:
@@ -39,7 +39,7 @@ process generate_plot_ge_data {
 process generate_plot_exon_data { 
     tag "${dataset_id}_${qtl_group}_${quant_method}"
     label "generate_plot_data"
-    container "quay.io/kerimoff/coverage_plot:v5"
+    container "quay.io/kerimoff/coverage_plot:v6"
 
 
     input:
@@ -76,7 +76,7 @@ process generate_plot_exon_data {
 process generate_plot_leafcutter_data { 
     tag "${dataset_id}_${qtl_group}_${quant_method}"
     label "generate_plot_data"
-    container "quay.io/kerimoff/coverage_plot:v5"
+    container "quay.io/kerimoff/coverage_plot:v6"
 
 
     input:
@@ -113,7 +113,7 @@ process generate_plot_leafcutter_data {
 process generate_plot_tx_data {
     tag "${dataset_id}_${qtl_group}_${quant_method}"
     label "generate_plot_data"
-    container "quay.io/kerimoff/coverage_plot:v5"
+    container "quay.io/kerimoff/coverage_plot:v6"
 
 
     input:
@@ -151,7 +151,7 @@ process generate_plot_tx_data {
 process generate_plot_txrev_data {
     tag "${dataset_id}_${qtl_group}_${quant_method}"
     label "generate_plot_data"
-    container "quay.io/kerimoff/coverage_plot:v5"
+    container "quay.io/kerimoff/coverage_plot:v6"
 
 
     input:

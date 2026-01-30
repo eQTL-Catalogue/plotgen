@@ -9,3 +9,5 @@ client-state/
 sessions/
 projects_settings/
 results/
+input/
+sbatch_runs/
