@@ -407,6 +407,10 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
   track_data_study_box <- track_data_study_box %>%  
     dplyr::left_join(tpm_exp_df_oi, by = c("sample_id", "tx_id"))
   
+  # Remove samples present in expression matrix but missing from metadata-filtered sample set
+  track_data_study_box <- track_data_study_box %>%
+    dplyr::filter(!is.na(snp_id))
+  
   message(" ## Reading nominal summary stats with seqminer")
   
   # Keep only 1 rsid per variant per molecular_trait_id

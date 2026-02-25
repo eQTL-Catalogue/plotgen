@@ -371,6 +371,10 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
     dplyr::left_join(track_data_study_box, by = "sample_id") 
   track_data_study_box <- track_data_study_box %>%  
     dplyr::left_join(tpm_exp_df_oi, by = c("sample_id", "tx_id"))
+  
+  # Remove samples present in expression matrix but missing from metadata-filtered sample set
+  track_data_study_box <- track_data_study_box %>%
+    dplyr::filter(!is.na(snp_id))
 
   message(" ## Filter nominal summstats")
   
