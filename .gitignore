@@ -9,5 +9,12 @@ client-state/
 sessions/
 projects_settings/
 results/
-input/
-sbatch_runs/
+input/exon_testdata
+input/ge
+input/GTEX_blood_ge
+input/lc_testdata
+input/tx_testdata
+input/txrev_testdata
+sbatch_runs/*
+input/*
+temp_debug
