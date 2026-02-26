@@ -18,3 +18,7 @@ input/txrev_testdata
 sbatch_runs/*
 input/*
 temp_debug
+temp/*
+scripts/merge_plot_tables/__pycache__
+scripts/merge_plot_tables/duplicate_extracts
+scripts/merge_plot_tables/outputs
