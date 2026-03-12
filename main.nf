@@ -12,8 +12,8 @@ if( !(workflow.runName ==~ /[a-z]+_[a-z]+/) ){
  * Create a channel for input files
  */ 
 
-Channel.value(file(params.studyFile))
-//     .ifEmpty { error "Cannot find studyFile file in: ${params.studyFile}" }
+Channel.fromPath(params.studyFile)
+    .ifEmpty { error "Cannot find studyFile file in: ${params.studyFile}" }
     .splitCsv(header: true, sep: '\t', strip: true)
     .map{row -> [ row.dataset_id, row.study_id, row.quant_method, row.qtl_group, row.study_name, file(row.credible_sets_file), file(row.sample_meta), file(row.coverage_path), file(row.usage_matrix_norm), file(row.tpm_matrix), file(row.exon_summ_stats_files), file(row.all_summ_stats_files), file(row.pheno_meta), file(row.scaling_factors) ]}
     .branch {
@@ -26,8 +26,8 @@ Channel.value(file(params.studyFile))
     }
     .set { study_file_ch }
 
-Channel.value(file(params.studyFile))
-//   .ifEmpty { error "Cannot find studyFile file in: ${params.studyFile}" }
+Channel.fromPath(params.studyFile)
+  .ifEmpty { error "Cannot find studyFile file in: ${params.studyFile}" }
   .splitCsv(header: true, sep: '\t', strip: true)
   .map{row -> [ row.dataset_id, file(row.vcf_file) ]}
   .distinct()
