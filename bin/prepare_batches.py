@@ -3,14 +3,30 @@
 import math
 import polars as pl
 import argparse
+from pathlib import Path
 
 
 
-def parse_parquet_file_info_from_file(file_list_path):
-    file_paths_df = pl.read_csv(file_list_path, has_header=False, new_columns=["file_path"])
-    # Strip leading/trailing whitespace from the file_path column
-    file_paths_df = file_paths_df.with_columns(
-        file_path=file_paths_df["file_path"].str.strip_chars()
+def _load_parquet_paths(input_path):
+    input_path = Path(input_path)
+    if not input_path.exists():
+        raise FileNotFoundError(f"Path does not exist: {input_path}")
+
+    if input_path.is_dir():
+        file_paths = sorted(str(path) for path in input_path.glob("*.parquet") if path.is_file())
+    else:
+        with input_path.open("r", encoding="utf-8") as handle:
+            file_paths = [line.strip() for line in handle if line.strip()]
+
+    if not file_paths:
+        raise ValueError(f"No parquet files discovered from input: {input_path}")
+
+    return file_paths
+
+
+def parse_parquet_file_info(input_path):
+    file_paths_df = pl.DataFrame({"file_path": _load_parquet_paths(input_path)}).with_columns(
+        file_path=pl.col("file_path").str.strip_chars()
     )
     # Extract metadata using regex
     file_paths_df = file_paths_df.with_columns(
@@ -57,12 +73,12 @@ def prepare_study_id_credible_set(credible_sets, highest_pip_vars_per_cs, study_
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Split susie output files into batches.")
     parser.add_argument('-a', '--study_name', required=True, help="Study name")
-    parser.add_argument('-n', '--nominal_sumstats_files', required=True, help="File with nominal sumstats files (tsv format).")
+    parser.add_argument('-n', '--nominal_sumstats_files', required=True, help="Path to nominal sumstats parquet manifest file or directory with parquet files.")
     parser.add_argument('-d', '--dataset_id', required=True, help="Unique dataset_id.")
     parser.add_argument('-i', '--study_id', required=True, help="Study id.")
     parser.add_argument('-q', '--quant_method', required=True, help="Quantification method.")
     parser.add_argument('-g', '--qtl_group', required=True, help="Qtl group.")
-    parser.add_argument('-e', '--nominal_sumstats_exon_files', required=True, help="File with nominal sumstats exon files (tsv format).")
+    parser.add_argument('-e', '--nominal_sumstats_exon_files', required=True, help="Path to exon nominal sumstats parquet manifest file or directory with parquet files.")
     parser.add_argument('-s', '--susie_output_file', required=True, help="Purity filtered susie output (parquet format).")
     parser.add_argument('-p', '--phenotype_metadata', required=True, help="Phenotype metadata file. Tab separated file")
     parser.add_argument('-c', '--chunk_size', required=True,type=int,help="Perform analysis in chunks. Eg value 5 10 would indicate that phenotypes are split into 10 chunks and the 5th one of those will be processed.")
@@ -71,9 +87,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    # Read the file paths from the text file created by Nextflow
-    nominal_sumstats_info = parse_parquet_file_info_from_file(args.nominal_sumstats_files)
-    nominal_exon_sumstats_info = parse_parquet_file_info_from_file(args.nominal_sumstats_exon_files)
+    nominal_sumstats_info = parse_parquet_file_info(args.nominal_sumstats_files)
+    nominal_exon_sumstats_info = parse_parquet_file_info(args.nominal_sumstats_exon_files)
     df_credible_sets = pl.read_parquet(args.susie_output_file)
     phenotype_metadata_df = pl.read_csv(args.phenotype_metadata, separator='\t', schema_overrides={"chromosome": pl.Utf8})
 

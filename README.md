@@ -21,8 +21,8 @@ studyFile has to contain columns:
 * bigwig_path	- Path to the bigwig files
 * usage_matrix_norm	- Path to the normalised usage matrix
 * tpm_matrix - Path to the TPM matrix
-* exon_summ_stats_files	- Path to the file that contains full exon nominal summary statistics file paths (without header). From qtlmap wf output: ../sumstats/{dataset_id}/all/ path.
-* all_summ_stats_files	- Path to the file that contains full gene nominal summary statistics file paths (without header) From qtlmap wf output: ../sumstats/{dataset_id}/all/ path.
+* exon_summ_stats_files	- Path to either (a) a text manifest with one parquet file path per line (no header), or (b) a directory containing exon nominal summary statistics parquet files (`*.parquet`, non-recursive).
+* all_summ_stats_files	- Path to either (a) a text manifest with one parquet file path per line (no header), or (b) a directory containing gene nominal summary statistics parquet files (`*.parquet`, non-recursive).
 * pheno_meta - Phenotype metadata file. Tab separated file
 * scaling_factors - Path to the scaling_factors file
 
