@@ -21,7 +21,7 @@ process prepare_batches {
     label "process_low"
 
     input:
-    tuple val(dataset_id), val(study_id), val(quant_method), val(qtl_group), val(study_name), file(susie_purity_filtered), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm),file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index)
+    tuple val(dataset_id), val(study_id), val(quant_method), val(qtl_group), val(study_name), file(susie_purity_filtered), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm),file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index)
 
     output:
     tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm) ,file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), emit: study_tsv_inputs_ch
@@ -103,7 +103,7 @@ process convert_parquet_format {
     container = 'quay.io/kfkf33/duckdb_sqlite_with_path:v1'
 
     input:
-    tuple val(dataset_id), val(study_id), val(quant_method), val(qtl_group), val(study_name), file(susie_purity_filtered), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm),file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index)
+    tuple val(dataset_id), val(study_id), val(quant_method), val(qtl_group), val(study_name), file(susie_purity_filtered), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm),file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index)
     
 
     output:

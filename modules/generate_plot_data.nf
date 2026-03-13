@@ -6,7 +6,7 @@ process generate_plot_ge_data {
 
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
 
@@ -43,7 +43,7 @@ process generate_plot_exon_data {
 
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
 
@@ -80,7 +80,7 @@ process generate_plot_leafcutter_data {
 
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
 
@@ -117,7 +117,7 @@ process generate_plot_tx_data {
 
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
     path tx_gtf_file
@@ -155,7 +155,7 @@ process generate_plot_txrev_data {
 
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
     path txrev_gtf_file
@@ -195,7 +195,7 @@ process generate_plot_majiq_data {
     container "quay.io/kerimoff/coverage_plot:v6"
 
     input:
-    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), file(exon_summ_stats_files), file(all_summ_stats_files), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
+    tuple val(dataset_id), val(quant_method), val(qtl_group), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm), file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index), file(susie_purity_filtered)
     path mane_transcript_gene_map
     path mane_gtf_file
 
