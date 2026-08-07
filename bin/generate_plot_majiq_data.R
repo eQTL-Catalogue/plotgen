@@ -428,7 +428,8 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
   track_data_study_box <- norm_exp_df_oi %>%
     dplyr::left_join(track_data_study_box, by = "sample_id")
   track_data_study_box <- track_data_study_box %>%
-    dplyr::left_join(tpm_exp_df_oi, by = c("sample_id", "intron_id"))
+    dplyr::left_join(tpm_exp_df_oi, by = c("sample_id", "intron_id")) %>%
+    dplyr::filter(!is.na(snp_id), !is.na(genotype_text))
 
   nom_cc_sumstats_variant_phenotype_id <- read_and_filter_parquet(
     file_list = ss_oi$nominal_cc_path[[1]],
@@ -459,7 +460,11 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
   tx_str_df <- tx_structure_df %>% dplyr::mutate(limit_max = max(coverage_data_list$limits))
 
   message('## Writing plot data to .pq files')
-  signal_name <- gsub(pattern = "&", replacement = "\\&", x = paste0(gsub(pattern = ":", replacement = "_", x = ss_oi$molecular_trait_id), "__", ss_oi$variant, "__", ss_oi$gene_id))
+  signal_name <- paste0(gsub(pattern = ":", replacement = "_", x = ss_oi$molecular_trait_id), "__", ss_oi$variant, "__", ss_oi$gene_id)
+  if (stringr::str_length(signal_name) > 150) {
+    signal_name <- paste0(gsub(pattern = ":", replacement = "_", x = ss_oi$molecular_trait_id), "__", stringr::str_length(signal_name), "_long_var", "__", ss_oi$gene_id)
+  }
+  signal_name <- gsub(pattern = "&", replacement = "\\&", x = signal_name)
 
   output_path <- paste0("output_dir_", signal_name)
   if (!dir.exists(output_path)) {

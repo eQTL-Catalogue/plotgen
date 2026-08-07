@@ -24,7 +24,7 @@ workflow recap_plot_majiq {
     prepare_batches(convert_parquet_format.out.converted_study_input)
     
     generate_plot_majiq_data(
-        prepare_batches.out.study_tsv_inputs_ch.combine(prepare_batches.out.susie_batches.transpose(), by:[0,1,2]).take(1),
+        prepare_batches.out.study_tsv_inputs_ch.combine(prepare_batches.out.susie_batches.transpose(), by:[0,1,2]),
         mane_transcript_gene_map_ch.collect(),
         mane_gtf_file_ch.collect()
     )

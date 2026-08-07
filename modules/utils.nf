@@ -81,7 +81,7 @@ process generate_dataset_ids_sqlites {
 }
 
 process generate_credible_sets_db {
-    container = 'quay.io/kfkf33/duckdb_sqlite_with_path:v1'
+    container 'quay.io/kfkf33/duckdb_sqlite_with_path:v1'
     publishDir "${params.outdir}/${study_id}", mode: 'copy', overwrite: true, pattern: "*.sqlite"
 
 
@@ -100,7 +100,7 @@ process generate_credible_sets_db {
 }
 
 process convert_parquet_format {
-    container = 'quay.io/kfkf33/duckdb_sqlite_with_path:v1'
+    container 'quay.io/kfkf33/duckdb_sqlite_with_path:v1'
 
     input:
     tuple val(dataset_id), val(study_id), val(quant_method), val(qtl_group), val(study_name), file(susie_purity_filtered), file(sample_meta), file(coverage_parquet), file(usage_matrix_norm),file(tpm_matrix), path(exon_summ_stats_files, name: "exon_summ_stats_files_input"), path(all_summ_stats_files, name: "all_summ_stats_files_input"), file(phenotype_meta), file(scaling_factors), file(vcf_file), file(vcf_file_index)

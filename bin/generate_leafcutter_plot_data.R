@@ -289,7 +289,10 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
   
   # Generate the output path 
   signal_name <- paste0(gsub(pattern = ":", replacement = "_", x = ss_oi$molecular_trait_id), "__", ss_oi$variant, "__", ss_oi$gene_id)
-  
+  if (stringr::str_length(signal_name) > 150) {
+    signal_name <- paste0(gsub(pattern = ":", replacement = "_", x = ss_oi$molecular_trait_id), "__", stringr::str_length(signal_name), "_long_var", "__", ss_oi$gene_id)
+  }
+
   nom_exon_cc_sumstats_variant_phenotype_id <- read_and_filter_parquet( 
     file_list = ss_oi$nominal_exon_cc_path[[1]], 
     variant_to_match = ss_oi$variant,

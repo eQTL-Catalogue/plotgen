@@ -21,3 +21,4 @@ temp_debug
 .venv/
 EDA/*
 test_data_legacy/*
+data/*

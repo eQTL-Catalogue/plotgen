@@ -269,8 +269,15 @@ class Boxplot(BaseModel):
     @classmethod
     def _from_directory(cls, file_path: Path) -> 'Boxplot':
         box_plot_df = get_df_from_directory(file_path, 'box_plot_df')
-        # remove rows where all values are null
-        box_plot_df = box_plot_df[box_plot_df.norm_exp.notnull()]
+        # Remove rows that cannot be turned into valid genotype-level boxplots.
+        valid_genotype = box_plot_df.genotype_text.astype(str).isin(['0', '1', '2'])
+        box_plot_df = box_plot_df[
+            box_plot_df.norm_exp.notnull()
+            & box_plot_df.tpm_exp.notnull()
+            & box_plot_df.snp_id.notnull()
+            & box_plot_df.genotype_text.notnull()
+            & valid_genotype
+        ]
         boxplots = cls._df_to_boxplot_list(box_plot_df)
         return cls(boxplots=boxplots)
 
