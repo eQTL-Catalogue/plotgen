@@ -164,8 +164,11 @@ format_trait_matrix <- function(trait_matrix_oi, column_name,value_type_id) {
   return(trait_matrix_oi)
 }
 
-read_and_filter_parquet <- function(file_list, variant_to_match, phenotype_id) {
+read_and_filter_parquet <- function(file_list, variant_to_match, phenotype_id, allow_empty = FALSE) {
   if (!is.vector(file_list) || length(file_list) == 0) {
+    if (allow_empty) {
+      return(NULL)
+    }
     stop("file_list must be a non-empty vector of file names.")
   }
   total_files <- length(file_list)
@@ -344,10 +347,22 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
   }
   message(" ## Extracting exon-level summstats")
 
+  nom_exon_cc_sumstats_filt <- tibble::tibble(
+    exon_row_num = integer(),
+    molecular_trait_id = character(),
+    beta = double(),
+    interval = double(),
+    p_fdr = double(),
+    rsid = character()
+  )
+  exon_file_list <- unlist(ss_oi$nominal_exon_cc_path[[1]], use.names = FALSE)
+  exon_file_list <- exon_file_list[!is.na(exon_file_list) & nzchar(exon_file_list)]
+
   nom_exon_cc_sumstats_variant_phenotype_id <- read_and_filter_parquet(
-    file_list = ss_oi$nominal_exon_cc_path[[1]],
+    file_list = exon_file_list,
     variant_to_match = ss_oi$variant,
-    phenotype_id=ss_oi$gene_id
+    phenotype_id = ss_oi$gene_id,
+    allow_empty = TRUE
   )
   if(!is.null(nom_exon_cc_sumstats_variant_phenotype_id)) {
     # Extract the QTLs of exons according to gene and variant of interest
@@ -378,6 +393,9 @@ for (index in 1:nrow(highest_pip_vars_per_cs)) {
 
       exons_to_plot <- append(exons_to_plot, nom_exon_granges)
     }
+  } else {
+    message(" ## Exon-level summstats unavailable for variant ", ss_oi$variant,
+            " / gene ", ss_oi$gene_id, "; continuing without exon overlay")
   }
 
   message(" ## Extracting coverage data")
